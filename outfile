@@ -1,0 +1,14 @@
+Makefile
+ft_printf
+ft_split.c
+grep
+includes
+infile
+libftprintf.a
+main.c
+outfile
+pipex
+pipex.dSYM
+pipex.h
+pipex_utils1.c
+printf_objs
