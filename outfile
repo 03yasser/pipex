@@ -1,13 +1,11 @@
 Bonus
 Makefile
 Mandatory
-PIPEX_TESTER
 ft_printf
 includes
 infile
 libftprintf.a
 object_files1
-object_files2
 outfile
 pipex
 printf_objs

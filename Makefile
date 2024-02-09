@@ -3,7 +3,7 @@ b_SRCS = Bouns/ft_split_bonus.c Bouns/main_bonus.c Bouns/pipex_utils1_bonus.c
 B_OBJ = $(addprefix object_files2/,$(notdir $(b_SRCS:.c=.o)))
 P_SRCS = $(addprefix ft_printf/,$(SRCS_printf))
 P_OBJ = $(addprefix printf_objs/,$(notdir $(P_SRCS:.c=.o)))
-mandatory = main.c pipex_utils1.c ft_split.c pipex_utils2.c ft_substr.c
+mandatory = main.c pipex_utils1.c ft_split.c pipex_utils2.c ft_substr.c pipex_utils3.c
 SRCS = $(addprefix Mandatory/,$(mandatory))
 OBJ	= $(addprefix object_files1/,$(notdir $(SRCS:.c=.o)))
 

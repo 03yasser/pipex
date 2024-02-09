@@ -6,11 +6,12 @@
 /*   By: yboutsli <yboutsli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 11:51:51 by yboutsli          #+#    #+#             */
-/*   Updated: 2024/02/05 13:30:57 by yboutsli         ###   ########.fr       */
+/*   Updated: 2024/02/09 17:31:48 by yboutsli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
+
 void	ft_bzero(void *s, size_t n)
 {
 	size_t	i;

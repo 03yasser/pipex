@@ -75,19 +75,14 @@ char	**path(char **envp)
 }
 char	*cmd_path(char **cmd, char **npath)
 {
-	int	i;
+	int		i;
 	char	*tmp;
 	char	*tmp1;
 
 	if (**cmd == '\0')
 		return (NULL);
-	tmp = ft_strtrim(*cmd);
-	if (tmp)
-	{
-		tmp1 = *cmd;
-		*cmd = tmp; 
-		free(tmp1);
-	}	
+	if (*cmd[0] == '/')
+		return (*cmd);
 	i = 0;
 	while (npath[i])
 	{
@@ -211,20 +206,15 @@ char	**execv_argv(char *arg, char **npath)
 	char	**args;
 	char	*tmp;
 
-
 	if (!arg[0])
 		return (NULL);
 	args = ft_split(arg, ' ');
 	tmp = args[0];
-	args[0] = cmd_path(&tmp,npath);
-	if (args[0] == NULL)
-	{
-		access(args[0], F_OK);
-		perror(args[0]);
-	}
+	args[0] = cmd_path(&tmp, npath);
 	free(tmp);
-	return(args);
+	return (args);
 }
+
 int	main(int argc, char **argv, char *envp[])
 {
 	char	**npath;

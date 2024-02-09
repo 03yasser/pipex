@@ -6,7 +6,7 @@
 /*   By: yboutsli <yboutsli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 21:02:18 by yboutsli          #+#    #+#             */
-/*   Updated: 2024/02/09 16:38:41 by yboutsli         ###   ########.fr       */
+/*   Updated: 2024/02/09 17:27:42 by yboutsli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,4 +27,9 @@ char	*ft_strdup(const char *s1);
 char	*ft_strtrim(char *s1);
 char    **execv_argv(char *arg, char **npath);
 void	close2(int tab[2]);
+char	**path(char **envp);
+int     file2(char *file);
+int     file1(char *file);
+void	ft_free(char **tab);
+int     exist_file(char *file);
 #endif
