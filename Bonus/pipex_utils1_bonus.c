@@ -1,16 +1,96 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex_utils1.c                                     :+:      :+:    :+:   */
+/*   pipex_utils1_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yboutsli <yboutsli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 11:51:51 by yboutsli          #+#    #+#             */
-/*   Updated: 2024/02/09 17:09:52 by yboutsli         ###   ########.fr       */
+/*   Updated: 2024/02/05 13:30:57 by yboutsli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "pipex_bonus.h"
+void	ft_bzero(void *s, size_t n)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < n)
+	{
+		*(char *)(s + i) = 0;
+		i++;
+	}
+}
+
+char	*ft_strdup(const char *s1)
+{
+	size_t	len_s;
+	size_t	i;
+	char	*p;
+
+	i = 0;
+	len_s = ft_strlen(s1);
+	p = (char *) malloc (sizeof(char) * (len_s + 1));
+	if (!s1 || !p) 
+		return (NULL);
+	while (i < len_s)
+	{
+		p[i] = s1[i];
+		i++;
+	}
+	p[i] = '\0';
+	return (p);
+}
+
+void	*ft_calloc(size_t count, size_t size)
+{
+	char	*p;
+
+	if ((int) count < 0 && (int) size <  0)
+        return (NULL);
+	if ((size && count > (4294967295 / size)))
+		return (NULL);
+	p = malloc (count * size);
+	if (!p)
+		return (NULL);
+	ft_bzero(p, count * size);
+	return (p);
+}
+
+size_t	ft_strlen(const char *s)
+{
+	size_t	i;
+
+	i = 0;
+    if (!s)
+        return (0);
+	while (s[i])
+		i++;
+	return (i);
+}
+char	*ft_substr(const char *s, unsigned int start, size_t len)
+{
+	size_t	i;
+	char	*p;
+
+	if (!s)
+		return (NULL);
+	if (start > ft_strlen(s))
+		return (ft_strdup(""));
+	if (len > ft_strlen(s + start))
+		len = ft_strlen(s + start);
+	p = ft_calloc(len + 1, sizeof(char));
+	if (!p)
+		return (NULL);
+	i = 0;
+	while (i < len)
+	{
+		p[i] = s[start + i];
+		i++;
+	}
+	return (p);
+}
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
@@ -23,7 +103,6 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 		i++;
 	return (s1[i] - s2[i]);
 }
-
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	size_t	len_s1;
@@ -52,7 +131,6 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	p[j + i] = '\0';
 	return (p);
 }
-
 static int	exist(char const c, char const *set)
 {
 	size_t	j;
@@ -67,7 +145,7 @@ static int	exist(char const c, char const *set)
 	return (0);
 }
 
-char	*ft_strtrim(char *s1)
+char	*ft_strtrim(char const *s1)
 {
 	char	*p;
 	int		i;
@@ -76,7 +154,7 @@ char	*ft_strtrim(char *s1)
 
 	x = 0;
 	if (ft_strlen(s1) == 0 || s1[0] != '/')
-		return (s1);
+		return (NULL);
 	i = -1;
 	while (s1[++i])
 		if (s1[i] == '/')
@@ -92,16 +170,4 @@ char	*ft_strtrim(char *s1)
 		p[i++] = s1[x];
 	p[len - 1] = '\0';
 	return (p);
-}
-
-void	ft_free(char **tab)
-{
-	int	i;
-
-	i = 0;
-	while (tab[i])
-	{
-		free(tab[i]);
-		i++;
-	}
 }

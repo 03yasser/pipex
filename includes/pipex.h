@@ -6,7 +6,7 @@
 /*   By: yboutsli <yboutsli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 21:02:18 by yboutsli          #+#    #+#             */
-/*   Updated: 2024/02/03 16:37:05 by yboutsli         ###   ########.fr       */
+/*   Updated: 2024/02/09 16:38:41 by yboutsli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ char	*ft_substr(const char *s, unsigned int start, size_t len);
 char	**ft_split(char const *s, char c);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strdup(const char *s1);
-char	*ft_strtrim(char const *s1);
-char **execv_argv(char *arg, char **npath);
+char	*ft_strtrim(char *s1);
+char    **execv_argv(char *arg, char **npath);
+void	close2(int tab[2]);
 #endif

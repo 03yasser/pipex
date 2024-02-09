@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "pipex_bonus.h"
 #include <stdio.h>
 
 
@@ -116,83 +116,95 @@ void check()
 {
 	system("leaks pipex");
 }
-void child_process1(int fd[2], int fd1, char *argv, char **npath)
+void	child_process2(char *f2, char *cmd, char **npath)
 {
 	char	**execv_args;
-	execv_args = execv_argv(argv, npath);
-	dup2(fd1, 0);
-	dup2(fd[1], 1);
-	close (fd1);
-	close(fd[0]);
-	close(fd[1]);
-	execv(execv_args[0], execv_args);
-	
-}
-void	child_process2(int fd[2], int fd2, char *argv, char **npath)
-{
-	char	**execv_args;
-
-	dup2(fd2, 1);
-	dup2(fd[0], 0);
-	close(fd2);
-	close(fd[0]);
-	close(fd[1]);
-	execv_args = execv_argv(argv, npath);
-	execv(execv_args[0], execv_args);
-}
-int	*middle_procees()
-{
-	
-}	
-void	pipex_uils(int read, char *argv, char **npath)
-{
+	int	fd2;
 	int	pid;
-	int	fd[2];
-	pipe(fd);
-	pid = fork()
-	if(pid == 0)
+
+	if (!cmd[0])
 	{
-		
+		write(2, "permission denied\n", 18);
+		exit(EXIT_FAILURE);
 	}
+	fd2 = file2(f2);
+	dup2(fd2, 1);
+	close(fd2);
+	execv_args = execv_argv(cmd, npath);
+	pid = fork();
+	if (pid == 0)
+		execv(execv_args[0], execv_args);
+}
+void	middle_procees(char *cmd, char **npath)
+{
+	char	**execv_args;
+	int	fd[2];
+	int	pid;
 
+	if (!cmd[0])
+	{
+		write(2, "permission denied\n", 18);
+		exit(EXIT_FAILURE);
+	}
+	pipe(fd);
+	dup2(fd[1], 1);
+	close(fd[1]);
+	execv_args = execv_argv(cmd, npath);
+	pid = fork();
+	if (pid == 0)
+		execv(execv_args[0], execv_args);
+	dup2(fd[0], 0);
+}
+void child_process1(char *f1, char *cmd, char **npath)
+{
+	char	**execv_args;
+	int		fd1;
+	int		fd[2];
+	int		pid;
 
+	fd1 = file1(f1);
+	pipe(fd);
+	dup2(fd1, 0);
+	close(fd1);
+	dup2(fd[1], 1);
+	close(fd[1]);
+	if (!cmd[0])
+	{
+		write(2, "permission denied\n", 18);
+		exit(EXIT_FAILURE);
+	}
+	execv_args = execv_argv(cmd, npath);
+	pid = fork();
+	if (pid == -1)
+	{
+		perror("fork error");
+		exit(EXIT_FAILURE);
+    }
+	if (pid == 0)
+	{
+		if (execv(execv_args[0], execv_args) == -1)
+			perror(execv_args[0]);
+	}
+	dup2(fd[0], 0);
+	close(fd[0]);
 }
 void	pipex(int argc, char **argv, char **npath)
 {
-	int	fd[2];
-	int	tmp[2];
+	int	tmp;
 	int	pid;
-	int	pid1;
 	int	fd1;
-	int	fd2;
 	int	i;
-	fd1 = file1(argv[1]);
-	fd2 = file2(argv[argc - 1]);
-	if (fd1 < 0 || fd2 < 0)
-		return ;
-	pipe(fd);
-	// pipe fail
-	pid = fork();
-	if (pid < 0)
-		return (perror("Fork: "));
-	if (pid == 0)
-		child_process1(fd, fd1, argv[2], npath);
-	waitpid(pid, NULL, 0);
+
+	child_process1(argv[1], argv[2], npath);
 	i = 3;
 	while (i < argc - 1)
-	{
-		pipex_utils()
-	}
-	pid1 = fork();
-	if (pid1 < 0)
-		return (perror("Fork: "));
-	if (pid1 == 0)
-		child_process2(fd, fd2, argv[3], npath);
-	close(fd1);
-	close(fd2);
+		middle_procees(argv[i++], npath);
+	child_process2(argv[argc - 1], argv[argc - 2], npath);
+	while (waitpid(0, 0, 0) != -1)
+		;
 }
 
-char **execv_argv(char *arg, char **npath)
+char	**execv_argv(char *arg, char **npath)
 {
 	char	*cmd;
 	char	*ccmd_path;
@@ -200,12 +212,15 @@ char **execv_argv(char *arg, char **npath)
 	char	*tmp;
 
 
+	if (!arg[0])
+		return (NULL);
 	args = ft_split(arg, ' ');
 	tmp = args[0];
 	args[0] = cmd_path(&tmp,npath);
 	if (args[0] == NULL)
 	{
-		
+		access(args[0], F_OK);
+		perror(args[0]);
 	}
 	free(tmp);
 	return(args);
@@ -213,8 +228,9 @@ char **execv_argv(char *arg, char **npath)
 int	main(int argc, char **argv, char *envp[])
 {
 	char	**npath;
-	if (argc != 5)
-		return (0);
+	
+	if (argc < 5)
+		exit(EXIT_FAILURE);
 	npath = path(envp);
 	// atexit(check);
 	pipex(argc, argv, npath);
