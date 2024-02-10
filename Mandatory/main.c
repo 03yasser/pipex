@@ -6,7 +6,7 @@
 /*   By: yboutsli <yboutsli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 17:05:51 by yboutsli          #+#    #+#             */
-/*   Updated: 2024/02/09 17:10:09 by yboutsli         ###   ########.fr       */
+/*   Updated: 2024/02/10 22:17:31 by yboutsli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@ void	child_process1(int fd[2], int file[2], char *cmd, char **npath)
 
 	if (cmd[0] == '\0')
 	{
-		ft_printf("permission denied:\n");
+		ft_printf(2, "permission denied:\n");
 		return ;
 	}
 	execv_args = execv_argv(cmd, npath);
 	if (!execv_args[0])
 	{
-		ft_printf("command not found: %s\n", cmd);
+		ft_printf(2, "command not found: %s\n", cmd);
 		exit (EXIT_FAILURE);
 	}
 	dup2(file[0], 0);
@@ -42,13 +42,13 @@ void	child_process2(int fd[2], int file[2], char *cmd, char **npath)
 
 	if (!cmd[0])
 	{
-		ft_printf("permission denied\n");
+		ft_printf(2, "permission denied\n");
 		return ;
 	}
 	execv_args = execv_argv(cmd, npath);
 	if (!*execv_args)
 	{
-		ft_printf("command not found: %s\n", cmd);
+		ft_printf(2, "command not found: %s\n", cmd);
 		exit(EXIT_FAILURE);
 	}
 	dup2(file[1], 1);
@@ -89,8 +89,6 @@ void	pipex(char **argv, char **npath)
 {
 	int	fd[2];
 	int	file[2];
-	int	fd1;
-	int	fd2;
 
 	file[0] = file1(argv[1]);
 	file[1] = file2(argv[4]);
@@ -113,6 +111,5 @@ int	main(int argc, char **argv, char *envp[])
 	npath = path(envp);
 	pipex(argv, npath);
 	ft_free(npath);
-	free (npath);
 	return (0);
 }

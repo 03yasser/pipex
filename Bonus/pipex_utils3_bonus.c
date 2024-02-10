@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex_utils3.c                                     :+:      :+:    :+:   */
+/*   pipex_utils3_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yboutsli <yboutsli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/09 17:06:58 by yboutsli          #+#    #+#             */
-/*   Updated: 2024/02/10 18:41:44 by yboutsli         ###   ########.fr       */
+/*   Created: 2024/02/10 22:04:32 by yboutsli          #+#    #+#             */
+/*   Updated: 2024/02/10 22:15:45 by yboutsli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "pipex_bonus.h"
 
 char	**path(char **envp)
 {
@@ -79,4 +79,24 @@ int	exist_file(char *file)
 		return (0);
 	else
 		return (1);
+}
+
+void	child_process2(char *cmd, char **npath)
+{
+	char	**execv_args;
+	int		pid;
+
+	if (!cmd[0])
+	{
+		write(2, "permission denied\n", 18);
+		exit(EXIT_FAILURE);
+	}
+	execv_args = execv_argv(cmd, npath);
+	pid = fork();
+	if (pid == 0)
+		execv(execv_args[0], execv_args);
+	ft_free(execv_args);
+	close(0);
+	while (waitpid(0, 0, 0) != -1)
+		;
 }
