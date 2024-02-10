@@ -33,7 +33,7 @@ bonus: $(B_OBJ) $(PRINTF_NAME)
 $(PRINTF_NAME): $(P_OBJ)
 	ar -rc $(PRINTF_NAME) $(P_OBJ)
 
-printf_objs/%.o: ft_printf/%.c
+printf_objs/%.o: ft_printf/%.c includes/ft_printf.h
 	mkdir -p printf_objs
 	$(CC) $(CFLAGS) -I ./includes -c $< -o $@
 
